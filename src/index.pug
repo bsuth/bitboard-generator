@@ -1,18 +1,77 @@
+// -----------------------------------------------------------------------------
+// JAVASCRIPT
+// -----------------------------------------------------------------------------
+
+- 
+	const N = ['north'], E = ['east'], S = ['south'], W = ['west'];
+	const NE = N.concat(E);
+	const NW = N.concat(W);
+	const NES = NE.concat(S);
+	const NEW = NE.concat(W);
+	const NSW = NW.concat(S);
+	const NESW = NES.concat(W);
+	const ES = E.concat(S);
+	const ESW = ES.concat(W);
+	const SW = S.concat(W);
+
+	let boards = {
+		'chess': [
+			'white', 'black', 'white', 'black', 'white', 'black', 'white', 'black',
+			'black', 'white', 'black', 'white', 'black', 'white', 'black', 'white',
+			'white', 'black', 'white', 'black', 'white', 'black', 'white', 'black',
+			'black', 'white', 'black', 'white', 'black', 'white', 'black', 'white',
+			'white', 'black', 'white', 'black', 'white', 'black', 'white', 'black',
+			'black', 'white', 'black', 'white', 'black', 'white', 'black', 'white',
+			'white', 'black', 'white', 'black', 'white', 'black', 'white', 'black',
+			'black', 'white', 'black', 'white', 'black', 'white', 'black', 'white',
+		],
+		'xiangqi': [
+			ES, ESW, ESW, ESW, ESW, ESW, ESW, ESW, SW, // ROW 0
+			NES, NESW, NESW, NESW, NESW, NESW, NESW, NESW, NSW, // ROW 1
+			NES, NESW, NESW, NESW, NESW, NESW, NESW, NESW, NSW, // ROW 2
+			NES, NESW, NESW, NESW, NESW, NESW, NESW, NESW, NSW, // ROW 3
+			NES, NEW, NEW, NEW, NEW, NEW, NEW, NEW, NSW, // ROW 4
+			NES, ESW, ESW, ESW, ESW, ESW, ESW, ESW, NSW, // ROW 5
+			NES, NESW, NESW, NESW, NESW, NESW, NESW, NESW, NSW, // ROW 6
+			NES, NESW, NESW, NESW, NESW, NESW, NESW, NESW, NSW, // ROW 7
+			NES, NESW, NESW, NESW, NESW, NESW, NESW, NESW, NSW, // ROW 8
+			NE, NEW, NEW, NEW, NEW, NEW, NEW, NEW, NW, // ROW 9
+		],
+	};
+
+// -----------------------------------------------------------------------------
+// MIXINS
+// -----------------------------------------------------------------------------
+
+mixin boardMixin(id, cells)
+	div(id=id).board
+		each cell in cells
+			.cell
+				- let isString = (typeof(cell) == 'string')
+				if isString
+					div(class=cell)
+					.bit
+				else
+					each c in cell 
+						div(class=c)
+					.bit
+
+// -----------------------------------------------------------------------------
+// CONTENT
+// -----------------------------------------------------------------------------
+
 doctype html
 
 html
 	head
 		title Bitboard Utility
-		style
-			include style.css
+		link(rel='stylesheet' type='text/css' href='style.css')
 
 	body
 		div(id='wrapper')
-			div(id='bitboard') Bitboard: 0x0
-			div(id='board')
-				each cell in cells
-					div(class='cell')
-						each dir in cell 
-							div(class=dir)
-						div(class='bit')
+			#intro This is an introduction
+			#bitboard 0x0
+			#board-wrapper
+				each cells, id in boards
+					+boardMixin(id, cells)
 		script(src='script.js')

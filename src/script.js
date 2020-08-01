@@ -1,6 +1,9 @@
-let bits = document.getElementsByClassName('bit');
-let bitboard = document.getElementById('bitboard');
-let hex = new Array(Math.ceil(bits.length / 4)).fill(0);
+const bits = document.getElementsByClassName('bit');
+const hex = new Array(Math.ceil(bits.length / 4)).fill(0);
+
+const bitboard = document.getElementById('bitboard');
+const chess = document.getElementById('chess');
+const xiangqi = document.getElementById('xiangqi');
 
 for (let i = 0; i < bits.length; ++i) {
 	bits[i].addEventListener('click', () => {
@@ -11,7 +14,7 @@ for (let i = 0; i < bits.length; ++i) {
 			bits[i].classList.add('active');
 
 		zeroCounter = 0;
-		bitboard.innerHTML = 'Bitboard: 0x' + (hex.reduce((str, n) => {
+		bitboard.innerHTML = '0x' + (hex.reduce((str, n) => {
 			if (n == 0) {
 				++zeroCounter;
 			} else {

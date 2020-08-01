@@ -1,125 +1,54 @@
 #!/usr/bin/node
 
+const child_process = require('child_process');
 const fs = require('fs');
+const path = require('path');
+const process = require('process');
+
 const pug = require('pug')
+const sass = require('node-sass');
 
 // -----------------------------------------------------------------------------
 // CONFIG
 // -----------------------------------------------------------------------------
 
 const OUTPUT_DIR = 'public'
+const PUG_FILE = 'src/index.pug'
+const SCSS_FILE = 'src/style.scss'
+const JS_FILE = 'src/script.js'
 
-const CELLS = [
-	// ROW 0
-	['east', 'south'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['south', 'west'],
+// -----------------------------------------------------------------------------
+// HELPERS
+// -----------------------------------------------------------------------------
 
-	// ROW 1
-	['north', 'east', 'south'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'south', 'west'],
+function compilePug() {
+	process.stdout.write('Compiling pug file...');
+	const compile = pug.compileFile(PUG_FILE);
+	fs.writeFileSync(`${OUTPUT_DIR}/index.html`, compile());
+	console.log('done');
+}
 
-	// ROW 2
-	['north', 'east', 'south'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'south', 'west'],
-	
-	// ROW 3
-	['north', 'east', 'south'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'south', 'west'],
+function compileScss() {
+	process.stdout.write('Compiling scss file...');
+	child_process.execSync(`npx sass ${SCSS_FILE} ${OUTPUT_DIR}/style.css`, {
+		stdio: 'pipe',
+	});
+	console.log('done');
+}
 
-	// ROW 4
-	['north', 'east', 'south'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'south', 'west'],
+function compileJs() {
+	process.stdout.write(`Copying javascript to ${OUTPUT_DIR}...`);
+	fs.copyFileSync(JS_FILE, `${OUTPUT_DIR}/${path.basename(JS_FILE)}`);
+	console.log('done');
+}
 
-	// ROW 5
-	['north', 'east', 'south'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['east', 'south', 'west'],
-	['north', 'south', 'west'],
-
-	// ROW 6
-	['north', 'east', 'south'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'south', 'west'],
-
-	// ROW 7
-	['north', 'east', 'south'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'south', 'west'],
-	
-	// ROW 8
-	['north', 'east', 'south'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'east', 'south', 'west'],
-	['north', 'south', 'west'],
-
-	// ROW 9
-	['north', 'east'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'east', 'west'],
-	['north', 'west'],
-];
+function watch(file, compiler) {
+	console.log(`Watching ${file}`);
+	return fs.watch(file, () => {
+		console.log(`Change detected for ${file}, recompiling.`);
+		compiler();
+	});
+}
 
 // -----------------------------------------------------------------------------
 // MAIN
@@ -131,11 +60,19 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 	console.log('done');
 }
 
-process.stdout.write('Compiling pug file...');
-const compile = pug.compileFile('src/index.pug');
-fs.writeFileSync(`${OUTPUT_DIR}/index.html`, compile({cells: CELLS}))
-console.log('done');
 
-process.stdout.write(`Moving javascript to ${OUTPUT_DIR}...`);
-fs.copyFileSync('src/script.js', `${OUTPUT_DIR}/script.js`);
-console.log('done');
+if (process.argv.includes('--watch')) {
+	compilePug();
+	compileScss();
+	compileJs();
+
+	console.log();
+
+	watch(PUG_FILE, compilePug);
+	watch(SCSS_FILE, compileScss);
+	watch(JS_FILE, compileJs);
+} else {
+	compilePug();
+	compileScss();
+	compileJs();
+}
