@@ -69,7 +69,10 @@ html
 
 	body
 		div(id='wrapper')
-			#intro This is an introduction
+			#title Bitboard Generator
+			#board-select
+				.selector(data-board='chess') Chess
+				.selector(data-board='xiangqi') Xiangqi
 			#bitboard 0x0
 			#board-wrapper
 				each cells, id in boards

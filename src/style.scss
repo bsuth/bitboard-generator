@@ -28,6 +28,37 @@ html, body {
 	transform: translate(-50%, -50%);
 }
 
+#title {
+	margin: 0 auto;
+	font-size: 30px;
+}
+
+#bitboard {
+	margin-bottom: 20px;
+}
+
+// -----------------------------------------------------------------------------
+// BOARD SELECTOR
+// -----------------------------------------------------------------------------
+
+#board-select {
+	width: 80%;
+	margin: 15px auto;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.selector {
+		margin: 0 10px;
+		cursor: pointer;
+		font-size: 20px;
+		font-weight: bold;
+
+		&.active { text-decoration: underline; }
+	}
+}
+
 // -----------------------------------------------------------------------------
 // BOARD
 // -----------------------------------------------------------------------------
