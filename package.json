@@ -1,0 +1,17 @@
+{
+	"name": "bitboard-generator",
+	"version": "1.0.0",
+	"author": "Brian Sutherland",
+	"description": "Web utility for generating bitboards.",
+	"scripts": {
+		"start": "http-server",
+		"build": "./make",
+		"make": "./make"
+	},
+	"license": "MIT",
+	"dependencies": {},
+	"devDependencies": {
+		"http-server": "^0.12.3",
+		"pug": "^3.0.0"
+	}
+}

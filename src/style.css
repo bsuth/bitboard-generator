@@ -1,0 +1,97 @@
+/*
+ * -----------------------------------------------------------------------------
+ * ROOT
+ * -----------------------------------------------------------------------------
+ */
+
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background: #e0e0e0;
+}
+
+/*
+ * -----------------------------------------------------------------------------
+ * WRAPPERS
+ * -----------------------------------------------------------------------------
+ */
+
+#wrapper {
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+	left: 50%; top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#board {
+	width: 70vw;
+	height: 70vw;
+
+	display: grid;
+	grid-template-columns: repeat(9, 1fr);
+	grid-template-rows: repeat(10, 1fr);
+	flex-direction: column;
+}
+
+/*
+ * -----------------------------------------------------------------------------
+ * CELL
+ * -----------------------------------------------------------------------------
+ */
+
+.cell {
+	position: relative;
+}
+
+.bit {
+	width: 2vw;
+	height: 2vw;
+
+	position: absolute;
+	top: 50%; left: 50%;
+	transform: translate(-50%, -50%);
+
+	cursor: pointer;
+	border-radius: 50px;
+	background: #181818;
+}
+
+.bit.active {
+	background: #ff9f19;
+}
+
+.north, .south, .east, .west {
+	position: absolute;
+	top: 50%; left: 50%;
+	background: #181818;
+}
+
+.north, .south {
+	width: 2px;
+	height: 50%;
+	transform-origin: top;
+}
+
+.east, .west {
+	width: 50%;
+	height: 2px;
+	transform-origin: left;
+}
+
+.north{ transform: translateX(-50%) rotate(180deg); }
+.south { transform: translateX(-50%); }
+.east { transform: translateY(-50%); }
+.west { transform: translateY(-50%) rotate(180deg); }
