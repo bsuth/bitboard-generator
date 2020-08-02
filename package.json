@@ -5,9 +5,8 @@
 	"description": "Web utility for generating bitboards.",
 	"scripts": {
 		"start": "http-server",
-		"build": "./make",
-		"make": "./make",
-		"watch": "./make --watch"
+		"build": "node build",
+		"watch": "node build --watch"
 	},
 	"license": "MIT",
 	"dependencies": {},
