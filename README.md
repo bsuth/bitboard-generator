@@ -7,7 +7,7 @@ Bitboard Generator is a small web utility to help me manage
 originally developed just for [Xiangqi](https://en.wikipedia.org/wiki/Xiangqi),
 but extended to Chess as well for fun.
 
-You may use it online [here](https://bsuth.github.io/bitboard-generator).
+You may use it online [here](https://bsuth.github.io/bitboard-generator/).
 
 Bitboard Generator uses [Pug](https://pugjs.org/api/getting-started.html)
 templates for HTML and [Sass](https://sass-lang.com/)(Scss) for styling.

@@ -4,9 +4,7 @@ const child_process = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const process = require('process');
-
 const pug = require('pug')
-const sass = require('node-sass');
 
 // -----------------------------------------------------------------------------
 // CONFIG
@@ -42,14 +40,6 @@ function compileJs() {
 	console.log('done');
 }
 
-function watch(file, compiler) {
-	console.log(`Watching ${file}`);
-	return fs.watch(file, () => {
-		console.log(`Change detected for ${file}, recompiling.`);
-		compiler();
-	});
-}
-
 // -----------------------------------------------------------------------------
 // MAIN
 // -----------------------------------------------------------------------------
@@ -60,7 +50,6 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 	console.log('done');
 }
 
-
 if (process.argv.includes('--watch')) {
 	compilePug();
 	compileScss();
@@ -68,9 +57,44 @@ if (process.argv.includes('--watch')) {
 
 	console.log();
 
-	watch(PUG_FILE, compilePug);
-	watch(SCSS_FILE, compileScss);
-	watch(JS_FILE, compileJs);
+	// fs.watch fires two 'change' events on save. To prevent double
+	// re-compilation, we keep track of whether the file has been recently
+	// compiled.
+	const recentlyCompiled = {};
+
+	fs.watch('src', (eventType, file) => {
+		if (eventType != 'change' || recentlyCompiled[file])
+			return;
+
+		switch (file) {
+			case path.basename(PUG_FILE):
+				console.log(`Change detected for ${PUG_FILE}, recompiling.`);
+				compilePug();
+				break;
+
+			case path.basename(SCSS_FILE):
+				console.log(`Change detected for ${SCSS_FILE}, recompiling.`);
+				compileScss();
+				break;
+
+			case path.basename(JS_FILE):
+				console.log(`Change detected for ${JS_FILE}, recompiling.`);
+				compileJs();
+				break;
+
+			default:
+				return;
+		}
+
+		recentlyCompiled[file] = true;
+		setTimeout(() => recentlyCompiled[file] = false, 500);
+	});
+
+	console.log(`Watching src/`);
+
+	// pugWatch = watch(PUG_FILE, compilePug);
+	// watch(SCSS_FILE, compileScss);
+	// watch(JS_FILE, compileJs);
 } else {
 	compilePug();
 	compileScss();
