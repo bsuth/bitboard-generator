@@ -21,7 +21,6 @@ jobs:
       
     - name: Install + build
       run: |
-        cd "$GITHUB_WORKSPACE"
         npm install
         npm run build
 
@@ -29,4 +28,4 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@3.5.9
       with:
         BRANCH: gh-pages
-        FOLDER: public
+        FOLDER: dist

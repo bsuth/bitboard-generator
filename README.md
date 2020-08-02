@@ -12,22 +12,20 @@ You may use it online [here](https://bsuth.github.io/bitboard-generator/).
 Bitboard Generator uses [Pug](https://pugjs.org/api/getting-started.html)
 templates for HTML and [Sass](https://sass-lang.com/)(Scss) for styling.
 
-Usage
------
+Building
+--------
 
-You can install the dependencies, build/watch the project or start a local
-server using the following:
+Bitboard Generator uses [Parcel](https://parceljs.org/) to build the production
+files. You can build the project using:
 
 ```bash
-# Install dependencies
+# Clone repo
+git clone https://github.com/bsuth/bitboard-generator/
+cd bitboard-generator
+
+# Install dependencies, build project
 npm install
-
-# Build project
 npm run build
-
-# Watch files for build
-npm run watch
-
-# Serve the built files with http-server
-npm start
 ```
+
+You can also start the Parcel development server using ```npm run dev```.
