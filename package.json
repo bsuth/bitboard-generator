@@ -6,6 +6,7 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "parcel src/index.pug",
+		"prebuild": "rm -rf dist",
 		"build": "parcel build src/index.pug"
 	},
 	"devDependencies": {
