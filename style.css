@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #e0e0e0;
+}
+
+#wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#title {
+  margin: 0 auto;
+  font-size: 30px;
+}
+
+#bitboard {
+  margin-bottom: 20px;
+}
+
+#board-select {
+  width: 80%;
+  margin: 15px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#board-select .selector {
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+}
+#board-select .selector.active {
+  text-decoration: underline;
+}
+
+#board-wrapper {
+  width: 70vw;
+  height: 70vw;
+}
+
+.board {
+  width: 100%;
+  height: 100%;
+  display: grid;
+}
+
+.board:not(:first-child) {
+  display: none;
+}
+
+.cell {
+  position: relative;
+}
+.cell .bit {
+  width: 2vw;
+  height: 2vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  border-radius: 50px;
+  background: #d13d3d;
+}
+.cell .bit.active {
+  background: #41b56c;
+}
+
+#chess {
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  border: 3px solid black;
+}
+#chess .black {
+  width: 100%;
+  height: 100%;
+  background: #181818;
+}
+
+#xiangqi {
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+#xiangqi .north, #xiangqi .south, #xiangqi .east, #xiangqi .west {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: #181818;
+}
+#xiangqi .north, #xiangqi .south {
+  width: 2px;
+  height: 50%;
+  transform-origin: top;
+}
+#xiangqi .east, #xiangqi .west {
+  width: 50%;
+  height: 2px;
+  transform-origin: left;
+}
+#xiangqi .north {
+  transform: translateX(-50%) rotate(180deg);
+}
+#xiangqi .south {
+  transform: translateX(-50%);
+}
+#xiangqi .east {
+  transform: translateY(-50%);
+}
+#xiangqi .west {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/*# sourceMappingURL=style.css.map */
