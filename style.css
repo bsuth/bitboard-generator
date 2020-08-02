@@ -49,14 +49,9 @@ html, body {
   text-decoration: underline;
 }
 
-#board-wrapper {
-  width: 70vw;
-  height: 70vw;
-}
-
 .board {
-  width: 100%;
-  height: 100%;
+  width: min(70vw, 70vh);
+  height: min(70vw, 70vh);
   display: grid;
 }
 
@@ -68,8 +63,8 @@ html, body {
   position: relative;
 }
 .cell .bit {
-  width: 2vw;
-  height: 2vw;
+  width: min(2vh, 2vw, 20px);
+  height: min(2vh, 2vw, 20px);
   position: absolute;
   top: 50%;
   left: 50%;
