@@ -2,9 +2,9 @@ Bitboard Generator
 ==================
 
 Bitboard Generator is a small web utility to help me manage
-[bitboards](https://en.wikipedia.org/wiki/Bitboard) while working on the
-[serpentine](https://github.com/bsuth/serpentine-core) project. It was
-originally developed just for [Xiangqi](https://en.wikipedia.org/wiki/Xiangqi),
+[bitboards](https://en.wikipedia.org/wiki/Bitboard) while I was pursuing some
+possible chess projects. It was originally developed just for
+[Xiangqi](https://en.wikipedia.org/wiki/Xiangqi),
 but extended to Chess as well for fun.
 
 You may use it online [here](https://bsuth.github.io/bitboard-generator/).
